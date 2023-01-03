@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" minHeight="300.0" prefHeight="310.0" prefWidth="350.0" scaleShape="false" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrkeurconversion.ConversionController">
+   <children>
+         <fx:include source="menuBar.fxml" />
+      <VBox alignment="CENTER" prefWidth="100.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="219.0" text="Hrk u Eur Konverzija" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="rateLabel" text="Tečaj: 7,53450">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="272.0">
+         <children>
+            <Label fx:id="receiptAmountLabel" contentDisplay="BOTTOM" minWidth="120.0" text="Iznos Racuna (EUR):" />
+            <TextField fx:id="receiptAmountEURTextField" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></TextField>
+            <Label text="EUR">
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="receiptAmountHRKTextField" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Label text="HRK" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="272.0">
+         <children>
+            <Label fx:id="givenAmountLabel" contentDisplay="CENTER" minWidth="120.0" prefHeight="17.0" prefWidth="120.0" text="Dani iznos (HRK):">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+            <TextField fx:id="givenAmountTextField" prefHeight="25.0" prefWidth="180.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" left="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="272.0">
+         <children>
+            <Label fx:id="returnAmountLabel" minWidth="110.0" text="Iznos za vratit:">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
+            <TextField fx:id="returnAmountEURTextField" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></TextField>
+            <Label text="EUR">
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="returnAmountHRKTextField" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></TextField>
+            <Label text="HRK" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="272.0" VBox.vgrow="NEVER">
+         <children>
+            <Button fx:id="resetButton" alignment="CENTER" mnemonicParsing="false" onAction="#onResetButtonPress" text="Resetiraj" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>
