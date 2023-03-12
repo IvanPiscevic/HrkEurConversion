@@ -5,20 +5,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+
 public class CalculatorController {
 
     @FXML
-    TextField oneCentField;
-
-    @FXML
-    TextField twoCentField;
-
-    @FXML
-    TextField fiveCentField;
+    VBox containerVbox;
 
     @FXML
     TextField tenCentField;
@@ -44,40 +40,29 @@ public class CalculatorController {
     @FXML
     TextField twentyEuroField;
 
-    @FXML
-    TextField fiftyEuroField;
 
     @FXML
     TextField resultField;
+
 
     @FXML
     public EventHandler<KeyEvent> eventHandlerSumAmountTextField = new EventHandler<>() {
         @Override
         public void handle(KeyEvent event) {
 
-            if (!oneCentField.getText().isBlank() || !twoCentField.getText().isBlank() ||
-                    !fiveCentField.getText().isBlank() || !tenCentField.getText().isBlank() ||
-                    !twentyCentField.getText().isBlank() || !fiftyCentField.getText().isBlank() ||
-                    !oneEuroField.getText().isBlank() || !twoEuroField.getText().isBlank() ||
-                    !fiveEuroField.getText().isBlank() || tenEuroField.getText().isBlank() ||
-                    !twentyEuroField.getText().isBlank() || !fiftyEuroField.getText().isBlank()){
-                calculateAmount(oneCentField, twoCentField, fiveCentField, tenCentField, twentyCentField, fiftyCentField,
-                        oneEuroField, twoEuroField, fiveEuroField, tenEuroField, twentyEuroField, fiftyEuroField);
-            }
+            calculateAmount(tenCentField, twentyCentField, fiftyCentField,
+                    oneEuroField, twoEuroField, fiveEuroField, tenEuroField, twentyEuroField);
+
         }
     };
 
     @FXML
     private void initialize() {
 
-        oneCentField.setText("0"); twoCentField.setText("0"); fiveCentField.setText("0"); tenCentField.setText("0");
-        twentyCentField.setText("0"); fiftyCentField.setText("0"); oneEuroField.setText("0"); twoEuroField.setText("0");
-        fiveEuroField.setText("0"); tenEuroField.setText("0"); twentyEuroField.setText("0"); fiftyEuroField.setText("0");
+        // Result field isn't allowed to be modified directly
+        resultField.setEditable(false);
+        resultField.setFocusTraversable(false);
 
-        // Event Listener initialization
-        oneCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
-        twoCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
-        fiveCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         tenCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         twentyCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         fiftyCentField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
@@ -86,33 +71,9 @@ public class CalculatorController {
         fiveEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         tenEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         twentyEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
-        fiftyEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
 
-        resultField.setEditable(false);
-        resultField.setFocusTraversable(false);
 
         // Enter Button HotKey -> ENTER
-        oneCentField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                oneCentField.setFocusTraversable(false);
-                twoCentField.requestFocus();
-            }
-        });
-
-        twoCentField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                twoCentField.setFocusTraversable(false);
-                fiveCentField.requestFocus();
-            }
-        });
-
-        fiveCentField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                fiveCentField.setFocusTraversable(false);
-                tenCentField.requestFocus();
-            }
-        });
-
         tenCentField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 tenCentField.setFocusTraversable(false);
@@ -165,88 +126,64 @@ public class CalculatorController {
         twentyEuroField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 twentyEuroField.setFocusTraversable(false);
-                fiftyEuroField.requestFocus();
-            }
-        });
-
-        fiftyEuroField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                fiftyEuroField.setFocusTraversable(false);
-                oneCentField.requestFocus();
+                tenCentField.requestFocus();
             }
         });
     }
 
     @FXML
     public void onResetButtonPress() {
-        oneCentField.setText("0"); twoCentField.setText("0"); fiveCentField.setText("0"); tenCentField.setText("0");
-        twentyCentField.setText("0"); fiftyCentField.setText("0"); oneEuroField.setText("0"); twoEuroField.setText("0");
-        fiveEuroField.setText("0"); tenEuroField.setText("0"); twentyEuroField.setText("0"); fiftyEuroField.setText("0");
-        resultField.setText("0");
+        tenCentField.setText(""); twentyCentField.setText(""); fiftyCentField.setText("");
+        oneEuroField.setText(""); twoEuroField.setText(""); fiveEuroField.setText("");
+        tenEuroField.setText(""); twentyEuroField.setText("");
+        resultField.setText("");
 
-        oneCentField.requestFocus();
+        tenCentField.requestFocus();
     }
 
-    private void calculateAmount(TextField oneCentField, TextField twoCentField, TextField fiveCentField,
-                                 TextField tenCentField, TextField twentyCentField, TextField fiftyCentField,
+    private void calculateAmount(TextField tenCentField, TextField twentyCentField, TextField fiftyCentField,
                                  TextField oneEuroField, TextField twoEuroField, TextField fiveEuroField,
-                                 TextField tenEuroField, TextField twentyEuroField, TextField fiftyEuroField) {
+                                 TextField tenEuroField, TextField twentyEuroField) {
 
         double sumAmount = 0D;
 
-        if (oneCentField.getText().isBlank()) {
-            oneCentField.setText("0");
+        double tenCentAmount = 0D;
+        double twentyCentAmount = 0D;
+        double fiftyCentAmount = 0D;
+        double oneEuroAmount = 0D;
+        double twoEuroAmount = 0D;
+        double fiveEuroAmount = 0D;
+        double tenEuroAmount = 0D;
+        double twentyEuroAmount = 0D;
+
+        if (!tenCentField.getText().isBlank()) {
+            tenCentAmount = (10 * Double.parseDouble(tenCentField.getText())) / 100;
         }
-        if (twoCentField.getText().isBlank()) {
-            twoCentField.setText("0");
+        if (!twentyCentField.getText().isBlank()) {
+            twentyCentAmount = (20 * Double.parseDouble(twentyCentField.getText())) / 100;
         }
-        if (fiveCentField.getText().isBlank()) {
-            fiveCentField.setText("0");
+        if (!fiftyCentField.getText().isBlank()) {
+            fiftyCentAmount = (50 * Double.parseDouble(fiftyCentField.getText())) / 100;
         }
-        if (tenCentField.getText().isBlank()) {
-            tenCentField.setText("0");
+        if (!oneEuroField.getText().isBlank()) {
+            oneEuroAmount = Double.parseDouble(oneEuroField.getText());
         }
-        if (twentyCentField.getText().isBlank()) {
-            twentyCentField.setText("0");
+        if (!twoEuroField.getText().isBlank()) {
+            twoEuroAmount = (2 * Double.parseDouble(twoEuroField.getText()));
         }
-        if (fiftyCentField.getText().isBlank()) {
-            fiftyCentField.setText("0");
+        if (!fiveEuroField.getText().isBlank()) {
+            fiveEuroAmount = (5 * Double.parseDouble(fiveEuroField.getText()));
         }
-        if (oneEuroField.getText().isBlank()) {
-            oneEuroField.setText("0");
+        if (!tenEuroField.getText().isBlank()) {
+            tenEuroAmount = (10 * Double.parseDouble(tenEuroField.getText()));
         }
-        if (twoEuroField.getText().isBlank()) {
-            twoEuroField.setText("0");
-        }
-        if (fiveEuroField.getText().isBlank()) {
-            fiveEuroField.setText("0");
-        }
-        if (tenEuroField.getText().isBlank()) {
-            tenEuroField.setText("0");
-        }
-        if (twentyEuroField.getText().isBlank()) {
-            twentyEuroField.setText("0");
-        }
-        if (fiftyEuroField.getText().isBlank()) {
-            fiftyEuroField.setText("0");
+        if (!twentyEuroField.getText().isBlank()) {
+            twentyEuroAmount = (20 * Double.parseDouble(twentyEuroField.getText()));
         }
 
-        double oneCentAmount = Double.parseDouble(oneCentField.getText()) / 100;
-        double twoCentAmount = (2 * Double.parseDouble(twoCentField.getText())) / 100;
-        double fiveCentAmount = (5 * Double.parseDouble(fiveCentField.getText())) / 100;
-        double tenCentAmount = (10 * Double.parseDouble(tenCentField.getText())) / 100;
-        double twentyCentAmount = (20 * Double.parseDouble(twentyCentField.getText())) / 100;
-        double fiftyCentAmount = (50 * Double.parseDouble(fiftyCentField.getText())) / 100;
-        double oneEuroAmount = Double.parseDouble(oneEuroField.getText());
-        double twoEuroAmount = (2 * Double.parseDouble(twoEuroField.getText()));
-        double fiveEuroAmount = (5 * Double.parseDouble(fiveEuroField.getText()));
-        double tenEuroAmount = (10 * Double.parseDouble(tenEuroField.getText()));
-        double twentyEuroAmount = (20 * Double.parseDouble(twentyEuroField.getText()));
-        double fiftyEuroAmount = (50 * Double.parseDouble(fiftyEuroField.getText()));
-
-        sumAmount += oneCentAmount += twoCentAmount += fiveCentAmount += tenCentAmount += twentyCentAmount +=
+        sumAmount += tenCentAmount += twentyCentAmount +=
                 fiftyCentAmount += oneEuroAmount += twoEuroAmount += fiveEuroAmount += tenEuroAmount +=
-                        twentyEuroAmount += fiftyEuroAmount;
+                        twentyEuroAmount;
 
 
         resultField.setText(Double.toString(round(sumAmount, 2)));

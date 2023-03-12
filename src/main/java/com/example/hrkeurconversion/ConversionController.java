@@ -21,16 +21,11 @@ public class ConversionController {
     public TextField receiptAmountEURTextField;
 
     @FXML
-    public TextField receiptAmountHRKTextField;
-
-    @FXML
     public TextField givenAmountTextField;
 
     @FXML
     public TextField returnAmountEURTextField;
 
-    @FXML
-    public TextField returnAmountHRKTextField;
 
     @FXML
     public EventHandler<KeyEvent> eventHandlerReceiptAmountTextField = new EventHandler<>() {
@@ -45,9 +40,6 @@ public class ConversionController {
                 if (receiptAmountEURTextField.getText().contains(",")) {
                     receiptEURAmountString = receiptEURAmountString.replace(',', '.');
                 }
-
-                double receiptHRK = round(Double.parseDouble(receiptEURAmountString) * EURO_VALUE, 2);
-                receiptAmountHRKTextField.setText(String.valueOf(receiptHRK));
             }
         }
     };
@@ -65,8 +57,7 @@ public class ConversionController {
 
     @FXML
     public void initialize() {
-
-        receiptAmountEURTextField.setText("0"); receiptAmountHRKTextField.setText("0"); givenAmountTextField.setText("0");
+        receiptAmountEURTextField.setText("");  givenAmountTextField.setText("");
 
         // Event Listener initialization
         receiptAmountEURTextField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerReceiptAmountTextField);
@@ -74,9 +65,6 @@ public class ConversionController {
 
         returnAmountEURTextField.setEditable(false);
         returnAmountEURTextField.setFocusTraversable(false);
-
-        returnAmountHRKTextField.setEditable(false);
-        returnAmountHRKTextField.setFocusTraversable(false);
 
         // Enter Button HotKey -> ENTER
         receiptAmountEURTextField.setOnKeyPressed(event -> {
@@ -92,30 +80,13 @@ public class ConversionController {
                 receiptAmountEURTextField.requestFocus();
             }
         });
-
-        // Reset Button Hotkey -> R
-//        receiptAmountTextField.setOnKeyPressed(event -> {
-//            if (event.getCode().equals(KeyCode.R)) {
-//                receiptAmountTextField.setFocusTraversable(false);
-//                onResetButtonPress();
-//            }
-//        });
-//
-//        givenAmountTextField.setOnKeyPressed(event -> {
-//            if (event.getCode().equals(KeyCode.R)) {
-//                givenAmountTextField.setFocusTraversable(false);
-//                onResetButtonPress();
-//            }
-//        });
     }
 
     @FXML
     public void onResetButtonPress() {
         receiptAmountEURTextField.clear();
-        receiptAmountHRKTextField.clear();
         givenAmountTextField.clear();
         returnAmountEURTextField.clear();
-        returnAmountHRKTextField.clear();
 
         receiptAmountEURTextField.requestFocus();
     }
@@ -133,29 +104,27 @@ public class ConversionController {
             givenAmountString = givenAmountString.replace(',', '.');
         }
 
-        double receiptAmount = 0D;
-        Double givenAmount = Double.parseDouble(givenAmountString);
+        double receiptAmount;
+        double givenAmount;
         double returnAmount;
 
         if (!receiptAmountTextField.getText().isBlank()) {
             receiptAmount = Double.parseDouble(receiptAmountString);
+        } else {
+            receiptAmount = 0D;
         }
 
         if (!givenAmountTextField.getText().isBlank()) {
             givenAmount = Double.parseDouble(givenAmountString);
+        } else {
+            givenAmount = 0D;
         }
 
-        if (givenAmount.equals(ZERO_VALUE)) {
-            returnAmountEURTextField.setText("0");
-            returnAmountHRKTextField.setText("0");
-        } else if (receiptAmount > givenAmount / EURO_VALUE) {
+        if (receiptAmount > givenAmount) {
             returnAmountEURTextField.setText("-");
-            returnAmountHRKTextField.setText("-");
         } else {
-            returnAmount = round((((givenAmount / EURO_VALUE) - receiptAmount)), 2);
+            returnAmount = round(((givenAmount - receiptAmount)), 2);
             returnAmountEURTextField.setText(Double.toString(returnAmount));
-            returnAmount = round(returnAmount * EURO_VALUE, 2);
-            returnAmountHRKTextField.setText(Double.toString(returnAmount));
         }
     }
 

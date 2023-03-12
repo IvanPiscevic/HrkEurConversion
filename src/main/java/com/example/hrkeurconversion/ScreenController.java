@@ -29,7 +29,7 @@ public class ScreenController {
         Scene scene = null;
 
         try {
-            scene = new Scene(fxmlLoader.load(), 350, 450);
+            scene = new Scene(fxmlLoader.load());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
