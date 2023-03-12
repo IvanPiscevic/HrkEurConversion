@@ -40,6 +40,9 @@ public class CalculatorController {
     @FXML
     TextField twentyEuroField;
 
+    @FXML
+    TextField fiftyEuroField;
+
 
     @FXML
     TextField resultField;
@@ -51,7 +54,7 @@ public class CalculatorController {
         public void handle(KeyEvent event) {
 
             calculateAmount(tenCentField, twentyCentField, fiftyCentField,
-                    oneEuroField, twoEuroField, fiveEuroField, tenEuroField, twentyEuroField);
+                    oneEuroField, twoEuroField, fiveEuroField, tenEuroField, twentyEuroField, fiftyEuroField);
 
         }
     };
@@ -71,6 +74,7 @@ public class CalculatorController {
         fiveEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         tenEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
         twentyEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
+        fiftyEuroField.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerSumAmountTextField);
 
 
         // Enter Button HotKey -> ENTER
@@ -126,6 +130,13 @@ public class CalculatorController {
         twentyEuroField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 twentyEuroField.setFocusTraversable(false);
+                fiftyEuroField.requestFocus();
+            }
+        });
+
+        fiftyEuroField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                fiftyEuroField.setFocusTraversable(false);
                 tenCentField.requestFocus();
             }
         });
@@ -135,7 +146,7 @@ public class CalculatorController {
     public void onResetButtonPress() {
         tenCentField.setText(""); twentyCentField.setText(""); fiftyCentField.setText("");
         oneEuroField.setText(""); twoEuroField.setText(""); fiveEuroField.setText("");
-        tenEuroField.setText(""); twentyEuroField.setText("");
+        tenEuroField.setText(""); twentyEuroField.setText(""); fiftyEuroField.setText("");
         resultField.setText("");
 
         tenCentField.requestFocus();
@@ -143,7 +154,7 @@ public class CalculatorController {
 
     private void calculateAmount(TextField tenCentField, TextField twentyCentField, TextField fiftyCentField,
                                  TextField oneEuroField, TextField twoEuroField, TextField fiveEuroField,
-                                 TextField tenEuroField, TextField twentyEuroField) {
+                                 TextField tenEuroField, TextField twentyEuroField, TextField fiftyEuroField) {
 
         double sumAmount = 0D;
 
@@ -155,6 +166,7 @@ public class CalculatorController {
         double fiveEuroAmount = 0D;
         double tenEuroAmount = 0D;
         double twentyEuroAmount = 0D;
+        double fiftyEuroAmount = 0D;
 
         if (!tenCentField.getText().isBlank()) {
             tenCentAmount = (10 * Double.parseDouble(tenCentField.getText())) / 100;
@@ -180,10 +192,13 @@ public class CalculatorController {
         if (!twentyEuroField.getText().isBlank()) {
             twentyEuroAmount = (20 * Double.parseDouble(twentyEuroField.getText()));
         }
+        if (!fiftyEuroField.getText().isBlank()) {
+            fiftyEuroAmount = (50 * Double.parseDouble(fiftyEuroField.getText()));
+        }
 
         sumAmount += tenCentAmount += twentyCentAmount +=
                 fiftyCentAmount += oneEuroAmount += twoEuroAmount += fiveEuroAmount += tenEuroAmount +=
-                        twentyEuroAmount;
+                        twentyEuroAmount += fiftyEuroAmount;
 
 
         resultField.setText(Double.toString(round(sumAmount, 2)));

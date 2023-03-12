@@ -125,6 +125,20 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="200.0">
          <children>
+            <Label text="50 €">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="fiftyEuroField" prefHeight="25.0" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="33.0" prefWidth="200.0">
+         <children>
             <TextField fx:id="resultField" alignment="CENTER" prefHeight="25.0" prefWidth="99.0" />
          </children>
       </HBox>
